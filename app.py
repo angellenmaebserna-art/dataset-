@@ -312,7 +312,6 @@ elif menu == "🔮 Predictions":
                             ax.set_ylabel("R² Score")
                             ax.set_title("5-Fold Cross-Validation Results")
                             ax.legend()
-                            st.subheader("🌿 Feature Importance")
                             st.pyplot(fig)
 
                                # ---------------- CLASSIFICATION MODE ----------------
@@ -394,6 +393,7 @@ elif menu == "🔮 Predictions":
 
 
                     # 🌿 Feature Importance
+                if task_type == "Regression":
                     st.subheader("🌿 Feature Importance")
                 try:
                     # Show feature importance for both Regression and Classification
