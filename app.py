@@ -393,11 +393,11 @@ elif menu == "🔮 Predictions":
 
 
                     # 🌿 Feature Importance
-                if task_type == "Both Regression and Classification":
+                if task_type == "Regression and Classification":
                         st.subheader("🌿 Feature Importance")
                 try:
                     # Show feature importance for both Regression and Classification
-                    rf_obj = rf if task_type == "Regression" else rf_clf
+                    rf_obj = rf if task_type == "Regression and Classification" else rf_clf
                     importances = pd.DataFrame({
                         "Feature": features.columns,
                         "Importance": rf_obj.feature_importances_
