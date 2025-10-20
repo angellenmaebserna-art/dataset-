@@ -313,6 +313,7 @@ elif menu == "🔮 Predictions":
                             ax.set_title("5-Fold Cross-Validation Results")
                             ax.legend()
                             st.pyplot(fig)
+                            st.subheader("🌿 Feature Importance")
 
                                # ---------------- CLASSIFICATION MODE ----------------
                 else:
