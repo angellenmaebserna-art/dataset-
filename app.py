@@ -391,24 +391,29 @@ elif menu == "🔮 Predictions":
                     st.pyplot(fig)
 
 
-
-                    # 🌿 Feature Importance
-                if task_type == "Regression":
-                        st.subheader("🌿 Feature Importance")
+                    # 🌿 Feature importance
+                    st.subheader("🌿 Feature Importance")
                 try:
-                    # Show feature importance for both Regression and Classification
-                    rf_obj = rf if task_type == "Regression and Classification" else rf_clf
-                    importances = pd.DataFrame({
-                        "Feature": features.columns,
-                        "Importance": rf_obj.feature_importances_
-                    }).sort_values("Importance", ascending=False)
+                    # regression-only
+                    rf_obj = rf  # imong RandomForestRegressor object
+
+                    importances = pd.DataFrame(
+                        {
+                            "Feature": features.columns,
+                            "Importance": rf_obj.feature_importances_
+                        }
+                    ).sort_values("Importance", ascending=False)
 
                     fig, ax = plt.subplots(figsize=(7, max(3, 0.5 * len(importances))))
                     sns.barplot(x="Importance", y="Feature", data=importances, ax=ax)
                     st.pyplot(fig)
 
+                except Exception as e:
+                    st.error(f"Feature importance could not be displayed: {e}")
+
+
                     # 🌊 Predictive Microplastic Levels — Regression Only
-                    if task_type == "Regression":
+                if task_type == "Regression":
                         st.subheader("🔮 Predictive Microplastic Levels")
 
                         # Generate simulated forecast for next 5 years (2026–2030)
@@ -444,8 +449,8 @@ elif menu == "🔮 Predictions":
                         future_df = pd.DataFrame({"Year": years, "Predicted_Microplastic_Level": future_preds})
                         st.session_state["future_df"] = future_df
 
-                except Exception as e:
-                    st.warning(f"Could not display feature importance or predictions: {e}")
+        except Exception as e:
+            st.warning(f"Could not display feature importance or predictions: {e}")
         
         except Exception as e:
                 st.error(f"Random Forest failed: {e}")
