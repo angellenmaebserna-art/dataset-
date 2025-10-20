@@ -312,8 +312,8 @@ elif menu == "🔮 Predictions":
                             ax.set_ylabel("R² Score")
                             ax.set_title("5-Fold Cross-Validation Results")
                             ax.legend()
-                            st.pyplot(fig)
                             st.subheader("🌿 Feature Importance")
+                            st.pyplot(fig)
 
                                # ---------------- CLASSIFICATION MODE ----------------
                 else:
