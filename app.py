@@ -393,8 +393,7 @@ elif menu == "🔮 Predictions":
 
 
                     # 🌿 Feature Importance
-                if task_type == "Regression":
-                    if task_type == "Classification":
+                if task_type == "Both Regression and Classification":
                         st.subheader("🌿 Feature Importance")
                 try:
                     # Show feature importance for both Regression and Classification
