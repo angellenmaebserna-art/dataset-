@@ -393,7 +393,22 @@ elif menu == "🔮 Predictions":
 
 
                     # 🌿 Feature Importance
-                if task_type == "Regression" "Classification":
+                if task_type == "Regression":
+                        st.subheader("🌿 Feature Importance")
+                try:
+                    # Show feature importance for both Regression and Classification
+                    rf_obj = rf if task_type == "Regression" else rf_clf
+                    importances = pd.DataFrame({
+                        "Feature": features.columns,
+                        "Importance": rf_obj.feature_importances_
+                    }).sort_values("Importance", ascending=False)
+
+                    fig, ax = plt.subplots(figsize=(7, max(3, 0.5 * len(importances))))
+                    sns.barplot(x="Importance", y="Feature", data=importances, ax=ax)
+                    st.pyplot(fig)
+
+                    # 🌿 Feature Importance
+                if task_type == "Classification":
                         st.subheader("🌿 Feature Importance")
                 try:
                     # Show feature importance for both Regression and Classification
