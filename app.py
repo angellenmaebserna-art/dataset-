@@ -392,17 +392,17 @@ elif menu == "🔮 Predictions":
 
 
 
-                # 🌿 Feature importance (works for both reg & clf if model variable exists)
+                # 🌿 Feature importance (Regression only)
                 st.subheader("🌿 Feature Importance")
                 try:
-                    # choose rf object depending on mode
-                    rf_obj = rf if task_type == "Regression" else rf_clf
-                    importances = pd.DataFrame(
-                        {"Feature": features.columns, "Importance": rf_obj.feature_importances_}
-                    ).sort_values("Importance", ascending=False)
+                    importances = pd.DataFrame({
+                        "Feature": features.columns,
+                        "Importance": rf.feature_importances_
+                    }).sort_values("Importance", ascending=False)
 
                     fig, ax = plt.subplots(figsize=(7, max(3, 0.5 * len(importances))))
                     sns.barplot(x="Importance", y="Feature", data=importances, ax=ax)
+                    ax.set_title("Feature Importance (Top Predictors of Microplastic Levels)")
                     st.pyplot(fig)
 
                     # ====================== 🌊 Predictive Microplastic Levels Section ======================
@@ -410,7 +410,7 @@ elif menu == "🔮 Predictions":
 
                     # Generate simulated forecast for next 5 years (2026–2030)
                     years = np.arange(2026, 2031)
-                    avg_pred = float(np.mean(y_pred)) if len(y_pred) > 0 else 0
+                    avg_pred = float(np.mean(y_pred)) if 'y_pred' in locals() and len(y_pred) > 0 else 0
                     future_preds = np.linspace(avg_pred * 0.9, avg_pred * 1.1, len(years))
 
                     # Plot forecasted microplastic levels
@@ -443,10 +443,10 @@ elif menu == "🔮 Predictions":
                     st.session_state["future_df"] = future_df
 
                 except Exception as e:
-                    st.warning(f"Could not plot feature importances: {e}")
+                    st.warning(f"Could not plot feature importances or generate predictions: {e}")
 
         except Exception as e:
-            st.error(f"Random Forest failed: {e}")
+                st.error(f"Random Forest failed: {e}")
 
     # -------------------- PROPHET --------------------
     elif model_choice == "Prophet":
