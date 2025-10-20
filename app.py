@@ -392,12 +392,14 @@ elif menu == "🔮 Predictions":
 
 
 
-                # 🌿 Feature importance (Regression only)
-                st.subheader("🌿 Feature Importance")
+                    # 🌿 Feature Importance
+                    st.subheader("🌿 Feature Importance")
                 try:
+                    # Show feature importance for both Regression and Classification
+                    rf_obj = rf if task_type == "Regression" else rf_clf
                     importances = pd.DataFrame({
                         "Feature": features.columns,
-                        "Importance": rf.feature_importances_
+                        "Importance": rf_obj.feature_importances_
                     }).sort_values("Importance", ascending=False)
 
                     fig, ax = plt.subplots(figsize=(7, max(3, 0.5 * len(importances))))
@@ -407,7 +409,7 @@ elif menu == "🔮 Predictions":
 
                     # 🌊 Predictive Microplastic Levels — Regression Only
                     if task_type == "Regression":
-                        st.subheader("🔮 Predictive Microplastic Levels (Regression Only)")
+                        st.subheader("🔮 Predictive Microplastic Levels")
 
                         # Generate simulated forecast for next 5 years (2026–2030)
                         years = np.arange(2026, 2031)
