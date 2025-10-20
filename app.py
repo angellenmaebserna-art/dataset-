@@ -405,46 +405,46 @@ elif menu == "🔮 Predictions":
                     ax.set_title("Feature Importance (Top Predictors of Microplastic Levels)")
                     st.pyplot(fig)
 
-                    # ====================== 🌊 Predictive Microplastic Levels Section ======================
-                    st.subheader("🔮 Predictive Microplastic Levels")
+                    # 🌊 Predictive Microplastic Levels — Regression Only
+                    if task_type == "Regression":
+                        st.subheader("🔮 Predictive Microplastic Levels (Regression Only)")
 
-                    # Generate simulated forecast for next 5 years (2026–2030)
-                    years = np.arange(2026, 2031)
-                    avg_pred = float(np.mean(y_pred)) if 'y_pred' in locals() and len(y_pred) > 0 else 0
-                    future_preds = np.linspace(avg_pred * 0.9, avg_pred * 1.1, len(years))
+                        # Generate simulated forecast for next 5 years (2026–2030)
+                        years = np.arange(2026, 2031)
+                        avg_pred = float(np.mean(y_pred)) if 'y_pred' in locals() and len(y_pred) > 0 else 0
+                        future_preds = np.linspace(avg_pred * 0.9, avg_pred * 1.1, len(years))
 
-                    # Plot forecasted microplastic levels
-                    fig, ax = plt.subplots()
-                    ax.plot(years, future_preds, marker='o', color='dodgerblue', label='Forecasted Level')
-                    ax.set_xlabel("Future Year")
-                    ax.set_ylabel("Predicted Microplastic Level (µg/L)")
-                    ax.set_title("Predicted Microplastic Levels for Next 5 Years")
-                    ax.legend()
-                    st.pyplot(fig)
+                        # Plot forecasted microplastic levels
+                        fig, ax = plt.subplots()
+                        ax.plot(years, future_preds, marker='o', color='dodgerblue', label='Forecasted Level')
+                        ax.set_xlabel("Future Year")
+                        ax.set_ylabel("Predicted Microplastic Level (µg/L)")
+                        ax.set_title("Predicted Microplastic Levels for Next 5 Years")
+                        ax.legend()
+                        st.pyplot(fig)
 
-                    # --- User input for specific year prediction ---
-                    st.markdown("### 📅 Enter a Future Year (Next 5 Years)")
-                    future_year = st.number_input(
-                        "Enter a year (e.g., 2026–2030):",
-                        min_value=int(years[0]),
-                        max_value=int(years[-1]),
-                        step=1
-                    )
+                        # --- User input for specific year prediction ---
+                        st.markdown("### 📅 Enter a Future Year (Next 5 Years)")
+                        future_year = st.number_input(
+                            "Enter a year (e.g., 2026–2030):",
+                            min_value=int(years[0]),
+                            max_value=int(years[-1]),
+                            step=1
+                        )
 
-                    # Display prediction for selected year
-                    if future_year in years:
-                        predicted_value = future_preds[list(years).index(future_year)]
-                        st.success(f"🌍 Predicted microplastic level in **{int(future_year)}**: {predicted_value:.2f} µg/L")
-                    else:
-                        st.info("Enter a valid year between 2026 and 2030 to see prediction.")
+                        if future_year in years:
+                            predicted_value = future_preds[list(years).index(future_year)]
+                            st.success(f"🌍 Predicted microplastic level in **{int(future_year)}**: {predicted_value:.2f} µg/L")
+                        else:
+                            st.info("Enter a valid year between 2026 and 2030 to see prediction.")
 
-                    # Save forecast to session_state for Reports tab
-                    future_df = pd.DataFrame({"Year": years, "Predicted_Microplastic_Level": future_preds})
-                    st.session_state["future_df"] = future_df
+                        # Save forecast to session_state for Reports tab
+                        future_df = pd.DataFrame({"Year": years, "Predicted_Microplastic_Level": future_preds})
+                        st.session_state["future_df"] = future_df
 
                 except Exception as e:
-                    st.warning(f"Could not plot feature importances or generate predictions: {e}")
-
+                    st.warning(f"Could not display feature importance or predictions: {e}")
+        
         except Exception as e:
                 st.error(f"Random Forest failed: {e}")
 
