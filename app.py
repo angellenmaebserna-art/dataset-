@@ -589,4 +589,3 @@ elif menu == "📜 Reports":
         )
     else:
         st.info("⚠️ No forecast data available yet. Please run Predictions tab first.")
-
